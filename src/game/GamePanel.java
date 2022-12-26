@@ -47,7 +47,8 @@ public class GamePanel extends JPanel implements GameEngine {
     public GamePanel(){
         this.setBackground(Color.WHITE);
         this.setLayout(new BorderLayout());
-
+        GameNetwork network = new GameNetwork();
+        network.initSocket();
         JPanel reversiBoard = new JPanel();
         reversiBoard.setLayout(new GridLayout(8,8));
         reversiBoard.setPreferredSize(new Dimension(500,500));
@@ -231,6 +232,19 @@ public class GamePanel extends JPanel implements GameEngine {
         turn = (turn == 1) ? 2 : 1;
 
         repaint();
+    }
+
+
+    public Point getAI_move(GamePlayer ai) {
+        Point aiPlayPoint = ai.play(board);
+        int i = aiPlayPoint.x;
+        int j = aiPlayPoint.y;
+        if(!BoardHelper.canPlay(board,ai.myMark,i,j)) System.err.println("FATAL : AI Invalid Move !");
+        System.out.println(ai.playerName() + " Played in : "+ i + " , " + j);
+        board = BoardHelper.getNewBoardAfterMove(board,aiPlayPoint,turn);
+        turn = (turn == 1) ? 2 : 1;
+        repaint();
+        return aiPlayPoint;
     }
 
 }
