@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ccee63e-a0fa-4840-b8fb-e97bb953fea3" name="Default" comment="add C network">
-      <change afterPath="$PROJECT_DIR$/src/game/GameNetwork.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/player/CPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/GameNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameNetwork.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GamePanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -422,6 +423,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="player" />
       <recent name="player.ai" />
     </key>
   </component>
@@ -519,7 +521,22 @@
       <workItem from="1671057875835" duration="1571000" />
       <workItem from="1671464318379" duration="2572000" />
       <workItem from="1671520698584" duration="4726000" />
+      <workItem from="1672051000301" duration="76000" />
+      <workItem from="1672691961453" duration="677000" />
+      <workItem from="1672753737614" duration="2531000" />
+      <workItem from="1672758076602" duration="8291000" />
+      <workItem from="1672776968067" duration="3644000" />
+      <workItem from="1672829379392" duration="1192000" />
+      <workItem from="1673174639694" duration="4955000" />
     </task>
+    <task id="LOCAL-00001" summary="add C network">
+      <created>1672051065305</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1672051065305</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">

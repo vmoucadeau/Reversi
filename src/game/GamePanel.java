@@ -27,9 +27,9 @@ public class GamePanel extends JPanel implements GameEngine {
     JLabel tscore1;
     JLabel tscore2;
 
+    GamePlayer player1;
+    GamePlayer player2;
 
-    GamePlayer player1 = new AIPlayerRealtimeKiller(1,6,true);
-    GamePlayer player2 = new AIPlayerDynamic(2,6);
 
     Timer player1HandlerTimer;
     Timer player2HandlerTimer;
@@ -49,6 +49,17 @@ public class GamePanel extends JPanel implements GameEngine {
         this.setLayout(new BorderLayout());
         GameNetwork network = new GameNetwork();
         network.initSocket();
+        int my_mark = network.getgamedata();
+        int opp_mark = (my_mark == 1) ? 2 : 1;
+        boolean firstplayer = (my_mark == 1);
+        if(my_mark == 1) {
+            player1 = new AIPlayerRealtimeKiller(my_mark,6,firstplayer);
+            player2 = new CPlayer(opp_mark);
+        }
+        else {
+            player1 = new CPlayer(opp_mark);
+            player2 = new AIPlayerRealtimeKiller(my_mark,6,firstplayer);
+        }
         JPanel reversiBoard = new JPanel();
         reversiBoard.setLayout(new GridLayout(8,8));
         reversiBoard.setPreferredSize(new Dimension(500,500));
@@ -93,17 +104,37 @@ public class GamePanel extends JPanel implements GameEngine {
         updateTotalScore();
 
         //AI Handler Timer (to unfreeze gui)
-        player1HandlerTimer = new Timer(1000,(ActionEvent e) -> {
-            handleAI(player1);
-            player1HandlerTimer.stop();
-            manageTurn();
-        });
+        if(my_mark == 1) {
+            player1HandlerTimer = new Timer(500,(ActionEvent e) -> {
+                Point AI_move = getAI_move(player1);
+                network.sendmove(AI_move);
+                player1HandlerTimer.stop();
+                manageTurn();
+            });
 
-        player2HandlerTimer = new Timer(1000,(ActionEvent e) -> {
-            handleAI(player2);
-            player2HandlerTimer.stop();
-            manageTurn();
-        });
+            player2HandlerTimer = new Timer(100,(ActionEvent e) -> {
+                handleServer(player2, network);
+                System.out.println("Server has played");
+                player2HandlerTimer.stop();
+                manageTurn();
+            });
+        }
+        else {
+            player2HandlerTimer = new Timer(500,(ActionEvent e) -> {
+                Point AI_move = getAI_move(player2);
+                network.sendmove(AI_move);
+                player2HandlerTimer.stop();
+                manageTurn();
+            });
+
+            player1HandlerTimer = new Timer(100,(ActionEvent e) -> {
+                handleServer(player1, network);
+                System.out.println("Server has played");
+                player1HandlerTimer.stop();
+                manageTurn();
+            });
+        }
+
 
         manageTurn();
     }
@@ -234,6 +265,17 @@ public class GamePanel extends JPanel implements GameEngine {
         repaint();
     }
 
+    public void handleServer(GamePlayer server, GameNetwork network) {
+        Point serverPlayPoint = network.get_move();
+        int i = serverPlayPoint.x;
+        int j = serverPlayPoint.y;
+        if(!BoardHelper.canPlay(board,server.myMark,i,j)) System.err.println("FATAL : Server Invalid Move !");
+        System.out.println(server.playerName() + " Played in : "+ i + " , " + j);
+
+        board = BoardHelper.getNewBoardAfterMove(board, serverPlayPoint, turn);
+        turn = (turn == 1) ? 2 : 1;
+        repaint();
+    }
 
     public Point getAI_move(GamePlayer ai) {
         Point aiPlayPoint = ai.play(board);
