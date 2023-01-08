@@ -34,6 +34,8 @@ public class GamePanel extends JPanel implements GameEngine {
     Timer player1HandlerTimer;
     Timer player2HandlerTimer;
 
+    GameNetwork network = new GameNetwork();
+
     @Override
     public int getBoardValue(int i,int j){
         return board[i][j];
@@ -44,11 +46,8 @@ public class GamePanel extends JPanel implements GameEngine {
         board[i][j] = value;
     }
 
-    public GamePanel(){
-        this.setBackground(Color.WHITE);
-        this.setLayout(new BorderLayout());
-        GameNetwork network = new GameNetwork();
-        network.initSocket();
+    public void InitPlayers() {
+
         int my_mark = network.getgamedata();
         int opp_mark = (my_mark == 1) ? 2 : 1;
         boolean firstplayer = (my_mark == 1);
@@ -60,6 +59,45 @@ public class GamePanel extends JPanel implements GameEngine {
             player1 = new CPlayer(opp_mark);
             player2 = new AIPlayerRealtimeKiller(my_mark,6,firstplayer);
         }
+
+        //AI Handler Timer (to unfreeze gui)
+        if(my_mark == 1) {
+            player1HandlerTimer = new Timer(200,(ActionEvent e) -> {
+                Point AI_move = getAI_move(player1);
+                network.sendmove(AI_move);
+                player1HandlerTimer.stop();
+                manageTurn();
+            });
+
+            player2HandlerTimer = new Timer(100,(ActionEvent e) -> {
+                handleServer(player2, network);
+                System.out.println("Server has played");
+                player2HandlerTimer.stop();
+                manageTurn();
+            });
+        }
+        else {
+            player2HandlerTimer = new Timer(200,(ActionEvent e) -> {
+                Point AI_move = getAI_move(player2);
+                network.sendmove(AI_move);
+                player2HandlerTimer.stop();
+                manageTurn();
+            });
+
+            player1HandlerTimer = new Timer(100,(ActionEvent e) -> {
+                handleServer(player1, network);
+                System.out.println("Server has played");
+                player1HandlerTimer.stop();
+                manageTurn();
+            });
+        }
+    }
+
+    public GamePanel(){
+        network.initSocket();
+        this.setBackground(Color.WHITE);
+        this.setLayout(new BorderLayout());
+
         JPanel reversiBoard = new JPanel();
         reversiBoard.setLayout(new GridLayout(8,8));
         reversiBoard.setPreferredSize(new Dimension(500,500));
@@ -99,42 +137,10 @@ public class GamePanel extends JPanel implements GameEngine {
         this.add(sidebar,BorderLayout.WEST);
         this.add(reversiBoard);
 
-        //
+        InitPlayers();
+
         updateBoardInfo();
         updateTotalScore();
-
-        //AI Handler Timer (to unfreeze gui)
-        if(my_mark == 1) {
-            player1HandlerTimer = new Timer(500,(ActionEvent e) -> {
-                Point AI_move = getAI_move(player1);
-                network.sendmove(AI_move);
-                player1HandlerTimer.stop();
-                manageTurn();
-            });
-
-            player2HandlerTimer = new Timer(100,(ActionEvent e) -> {
-                handleServer(player2, network);
-                System.out.println("Server has played");
-                player2HandlerTimer.stop();
-                manageTurn();
-            });
-        }
-        else {
-            player2HandlerTimer = new Timer(500,(ActionEvent e) -> {
-                Point AI_move = getAI_move(player2);
-                network.sendmove(AI_move);
-                player2HandlerTimer.stop();
-                manageTurn();
-            });
-
-            player1HandlerTimer = new Timer(100,(ActionEvent e) -> {
-                handleServer(player1, network);
-                System.out.println("Server has played");
-                player1HandlerTimer.stop();
-                manageTurn();
-            });
-        }
-
 
         manageTurn();
     }
@@ -181,9 +187,10 @@ public class GamePanel extends JPanel implements GameEngine {
             else if(winner==2) totalscore2++;
             updateTotalScore();
             //restart
-            //resetBoard();
-            //turn=1;
-            //manageTurn();
+            resetBoard();
+            turn=1;
+            InitPlayers();
+            manageTurn();
         }
     }
 

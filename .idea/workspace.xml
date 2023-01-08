@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ccee63e-a0fa-4840-b8fb-e97bb953fea3" name="Default" comment="add C network">
-      <change afterPath="$PROJECT_DIR$/src/player/CPlayer.java" afterDir="false" />
+    <list default="true" id="5ccee63e-a0fa-4840-b8fb-e97bb953fea3" name="Default" comment="C network working!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/GameNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameNetwork.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GamePanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -527,7 +525,7 @@
       <workItem from="1672758076602" duration="8291000" />
       <workItem from="1672776968067" duration="3644000" />
       <workItem from="1672829379392" duration="1192000" />
-      <workItem from="1673174639694" duration="4955000" />
+      <workItem from="1673174639694" duration="22509000" />
     </task>
     <task id="LOCAL-00001" summary="add C network">
       <created>1672051065305</created>
@@ -536,7 +534,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672051065305</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="C network working!">
+      <created>1673182314745</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1673182314745</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -580,7 +585,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add C network" />
-    <option name="LAST_COMMIT_MESSAGE" value="add C network" />
+    <MESSAGE value="C network working!" />
+    <option name="LAST_COMMIT_MESSAGE" value="C network working!" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/player/ai/Minimax.java">
